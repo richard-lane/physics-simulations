@@ -1,6 +1,8 @@
 import numpy as np
 import pygame
 
+from . import collisions
+
 
 class Balls:
     """
@@ -23,8 +25,8 @@ class Balls:
 
         """
         self.num_balls = num_balls
-        self.x = np.random.randint(0, 100, size=num_balls)
-        self.y = np.random.randint(0, 100, size=num_balls)
+        self.x = np.random.randint(0, 500, size=num_balls)
+        self.y = np.random.randint(0, 500, size=num_balls)
         self.v_x = np.random.randint(-10, 10, size=num_balls)
         self.v_y = np.random.randint(-10, 10, size=num_balls)
         self.r = np.random.randint(0, 10, size=num_balls)
@@ -53,6 +55,26 @@ class Balls:
             if self.y[i] < y_limits[0] or self.y[i] > y_limits[1]:
                 self.y[i] -= 2 * self.v_y[i]
                 self.v_y[i] *= -1
+
+        # Very naive collision logic
+        # Will miss the collisions between fast balls (they will step past each other)
+        # Also is physically inaccurate
+        # Also is inefficienct- checks every pair
+        # TODO nicer
+        for i in range(self.num_balls):
+            # Check balls < i
+            for j in range(i):
+                if (self.x[i] - self.x[j]) ** 2 + (self.y[i] - self.y[j]) ** 2 < (
+                    self.r[i] + self.r[j]
+                ) ** 2:
+                    print("ow")
+
+            # Check balls > i
+            for j in range(i + 1, self.num_balls):
+                if (self.x[i] - self.x[j]) ** 2 + (self.y[i] - self.y[j]) ** 2 < (
+                    self.r[i] + self.r[j]
+                ) ** 2:
+                    print("ow")
 
     def draw(self, screen):
         """
