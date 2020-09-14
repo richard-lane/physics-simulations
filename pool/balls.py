@@ -24,6 +24,9 @@ class Balls:
         Create some randomly positioned, sized and directed balls
 
         """
+        # TODO should track how many balls are moving and place stationary balls at the end of the list
+        # Then we only need to check the first few balls for collisions
+        # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
         self.num_balls = num_balls
         self.x = np.random.randint(0, 500, size=num_balls)
         self.y = np.random.randint(0, 500, size=num_balls)
@@ -52,7 +55,13 @@ class Balls:
         Also TODO UT for the case where they're touching but not moving
 
         """
-        if (self.v_x[i] == 0 and self.v_y[i] == 0 and self.v_x[j] == 0  and self.v_y[j] == 0):
+        # Stationary balls don't collide
+        if (
+            self.v_x[i] == 0
+            and self.v_y[i] == 0
+            and self.v_x[j] == 0
+            and self.v_y[j] == 0
+        ):
             return False
 
         return (self.x[i] - self.x[j]) ** 2 + (self.y[i] - self.y[j]) ** 2 < (
