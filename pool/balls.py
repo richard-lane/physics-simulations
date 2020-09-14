@@ -42,16 +42,32 @@ class Balls:
                 screen, (255, 255, 255), [self.x[i], self.y[i]], self.r[i]
             )
 
-    def colliding(self, i: int, j: int):
+    def colliding(self, i: int, j: int) -> bool:
         """
         Detect whether particles i and j are colliding this timestep
 
         Quite naive, will miss a collision where particles step through each other
 
+        TODO UT for this in the cases where they just touch, they intersect + they step past each other
+        Also TODO UT for the case where they're touching but not moving
+
         """
+        if (self.v_x[i] == 0 and self.v_y[i] == 0 and self.v_x[j] == 0  and self.v_y[j] == 0):
+            return False
+
         return (self.x[i] - self.x[j]) ** 2 + (self.y[i] - self.y[j]) ** 2 < (
             self.r[i] + self.r[j]
         ) ** 2
+
+    def resolve_collision(self, i: int, j: int) -> None:
+        """
+        Resolve a collision between particles i and j
+
+        """
+        # When balls collide, they stop
+        print("ow")
+        self.v_x[i], self.v_y[i] = 0, 0
+        self.v_x[j], self.v_y[j] = 0, 0
 
 
 def move(balls_collection: Balls, x_limits, y_limits):
@@ -90,9 +106,9 @@ def move(balls_collection: Balls, x_limits, y_limits):
         # Check balls < i
         for j in range(i):
             if balls_collection.colliding(i, j):
-                print("ow")
+                balls_collection.resolve_collision(i, j)
 
         # Check balls > i
         for j in range(i + 1, balls_collection.num_balls):
             if balls_collection.colliding(i, j):
-                print("ow")
+                balls_collection.resolve_collision(i, j)
