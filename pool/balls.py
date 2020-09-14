@@ -42,12 +42,25 @@ class Balls:
                 screen, (255, 255, 255), [self.x[i], self.y[i]], self.r[i]
             )
 
+    def colliding(self, i: int, j: int):
+        """
+        Detect whether particles i and j are colliding this timestep
+
+        Quite naive, will miss a collision where particles step through each other
+
+        """
+        return (self.x[i] - self.x[j]) ** 2 + (self.y[i] - self.y[j]) ** 2 < (
+            self.r[i] + self.r[j]
+        ) ** 2
+
 
 def move(balls_collection: Balls, x_limits, y_limits):
     """
     Move a collection of balls, processing collisions with the edges
 
     The wall limits are defined by two pairs (x_min, x_max) and (y_min, y_max)
+
+    this should be a method idk why i moved it out
 
     """
     # Move balls
@@ -76,14 +89,10 @@ def move(balls_collection: Balls, x_limits, y_limits):
     for i in range(balls_collection.num_balls):
         # Check balls < i
         for j in range(i):
-            if (balls_collection.x[i] - balls_collection.x[j]) ** 2 + (balls_collection.y[i] - balls_collection.y[j]) ** 2 < (
-                balls_collection.r[i] + balls_collection.r[j]
-            ) ** 2:
+            if balls_collection.colliding(i, j):
                 print("ow")
 
         # Check balls > i
         for j in range(i + 1, balls_collection.num_balls):
-            if (balls_collection.x[i] - balls_collection.x[j]) ** 2 + (balls_collection.y[i] - balls_collection.y[j]) ** 2 < (
-                balls_collection.r[i] + balls_collection.r[j]
-            ) ** 2:
+            if balls_collection.colliding(i, j):
                 print("ow")
