@@ -23,7 +23,7 @@ def draw():
                 done = True
         
         # Move balls
-        TestBalls.move(x_bounds, y_bounds)
+        balls.move(TestBalls, x_bounds, y_bounds)
 
         # Draw background and balls
         screen.fill((0, 0, 0))
