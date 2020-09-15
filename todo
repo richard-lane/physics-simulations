@@ -3,8 +3,14 @@ Collisions
 Relativistic collisions                    [ ]
 Balls bounce off each other                [ ]
 Balls only check neighbours for collisions [ ]
+Physically accurate wall bouncing          [ ]
 
 Graphics
 ========
 Draw pool table     [ ]
 Draw balls on table [ ]
+
+Testing
+=======
+Wall bounce UT [ ]
+Ball bounce UT [ ]

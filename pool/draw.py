@@ -15,7 +15,7 @@ def draw():
 
     clock = pygame.time.Clock()
 
-    TestBalls = balls.Balls(10)
+    TestBalls = balls.Balls(20)
 
     while not done:
         for event in pygame.event.get():

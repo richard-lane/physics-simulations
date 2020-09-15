@@ -12,12 +12,11 @@ class Balls:
 
     """
 
-    x = np.array([])
-    y = np.array([])
-    v_x = np.array([])
-    v_y = np.array([])
-    r = np.array([])
     num_balls = 0
+    positions = np.array([[]])
+    velocities = np.array([[]])
+    radii = np.array([])
+    masses = np.array([])
 
     def __init__(self, num_balls):
         """
@@ -28,12 +27,10 @@ class Balls:
         # Then we only need to check the first few balls for collisions
         # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
         self.num_balls = num_balls
-        self.x = np.random.randint(0, 500, size=num_balls)
-        self.y = np.random.randint(0, 500, size=num_balls)
-        self.v_x = np.random.randint(-10, 10, size=num_balls)
-        self.v_y = np.random.randint(-10, 10, size=num_balls)
-        self.r = np.random.randint(0, 10, size=num_balls)
-        self.m = self.r
+        self.positions = np.random.randint(0, 500, size=(num_balls, 2))
+        self.velocities = np.random.randint(-3, 3, size=(num_balls, 2))
+        self.radii = np.random.randint(0, 10, size=num_balls)
+        self.masses = np.square(self.radii)
 
     def draw(self, screen):
         """
@@ -42,7 +39,7 @@ class Balls:
         """
         for i in range(self.num_balls):
             pygame.draw.circle(
-                screen, (255, 255, 255), [self.x[i], self.y[i]], self.r[i]
+                screen, (255, 255, 255), self.positions[i], self.radii[i]
             )
 
     def colliding(self, i: int, j: int) -> bool:
@@ -56,27 +53,30 @@ class Balls:
 
         """
         # Stationary balls don't collide
-        if (
-            self.v_x[i] == 0
-            and self.v_y[i] == 0
-            and self.v_x[j] == 0
-            and self.v_y[j] == 0
-        ):
+        if not np.any(self.velocities[i]) or not np.any(self.velocities[j]):
             return False
 
-        return (self.x[i] - self.x[j]) ** 2 + (self.y[i] - self.y[j]) ** 2 < (
-            self.r[i] + self.r[j]
-        ) ** 2
+        return (self.positions[i][0] - self.positions[j][0]) ** 2 + (
+            self.positions[i][1] - self.positions[j][1]
+        ) ** 2 < (self.radii[i] + self.radii[j]) ** 2
 
     def resolve_collision(self, i: int, j: int) -> None:
         """
         Resolve a collision between particles i and j
 
         """
-        # When balls collide, they stop
-        print("ow")
-        self.v_x[i], self.v_y[i] = 0, 0
-        self.v_x[j], self.v_y[j] = 0, 0
+        # When balls collide, they bounce off each other
+        v1_new, v2_new = collisions.non_relativistic_collision(
+            self.velocities[i],
+            self.velocities[j],
+            self.positions[i],
+            self.positions[j],
+            self.masses[i],
+            self.masses[j],
+        )
+
+        self.velocities[i] = v1_new
+        self.velocities[j] = v2_new
 
     def move(self, x_limits, y_limits):
         """
@@ -84,26 +84,20 @@ class Balls:
 
         The wall limits are defined by two pairs (x_min, x_max) and (y_min, y_max)
 
-        this should be a method idk why i moved it out
-
         """
         # Move balls
-        for i in range(self.num_balls):
-            self.x[i] += self.v_x[i]
-            self.y[i] += self.v_y[i]
+        self.positions += self.velocities
 
         # Process collisions with the edges
         for i in range(self.num_balls):
-            if self.x[i] < x_limits[0] or self.x[i] > x_limits[1]:
-                self.x[i] -= 2 * self.v_x[i]
-                self.v_x[i] *= -1
-
-        # Might be quicker to do it all in one loop
-        # but then again it might not, because of the cache
-        for i in range(self.num_balls):
-            if self.y[i] < y_limits[0] or self.y[i] > y_limits[1]:
-                self.y[i] -= 2 * self.v_y[i]
-                self.v_y[i] *= -1
+            # Might not be quicker to do it all in one loop because of the cache
+            # TODO make physically accurate
+            if self.positions[i][0] < x_limits[0] or self.positions[i][0] > x_limits[1]:
+                self.positions[i] -= 2 * self.velocities[i]
+                self.velocities[i][0] *= -1
+            if self.positions[i][1] < y_limits[0] or self.positions[i][1] > y_limits[1]:
+                self.positions[i] -= 2 * self.velocities[i]
+                self.velocities[i][1] *= -1
 
         # Very naive collision logic
         # Will miss the collisions between fast balls (they will step past each other)
@@ -111,12 +105,7 @@ class Balls:
         # Also is inefficienct- checks every pair
         # TODO nicer
         for i in range(self.num_balls):
-            # Check balls < i
-            for j in range(i):
-                if self.colliding(i, j):
-                    self.resolve_collision(i, j)
-
-            # Check balls > i
-            for j in range(i + 1, self.num_balls):
-                if self.colliding(i, j):
-                    self.resolve_collision(i, j)
+            for j in range(self.num_balls):
+                if i != j:
+                    if self.colliding(i, j):
+                        self.resolve_collision(i, j)
