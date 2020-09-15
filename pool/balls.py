@@ -20,16 +20,16 @@ class Balls:
 
     def __init__(self, num_balls):
         """
-        Create some randomly positioned, sized and directed balls
+        Create some balls for testing
 
         """
         # TODO should track how many balls are moving and place stationary balls at the end of the list
         # Then we only need to check the first few balls for collisions
         # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
-        self.num_balls = num_balls
-        self.positions = 500 * np.random.ranf(size=(num_balls, 2))
-        self.velocities = 6 * np.random.ranf(size=(num_balls, 2)) - 3
-        self.radii = np.random.randint(0, 10, size=num_balls)
+        self.num_balls = 2
+        self.positions = np.array([[200, 350], [250, 350]])
+        self.velocities = np.array([[1, 0], [-1, 0]])
+        self.radii = np.random.randint(0, 10, size=self.num_balls)
         self.masses = np.square(self.radii)
 
     def draw(self, screen):

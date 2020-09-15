@@ -14,3 +14,8 @@ Testing
 =======
 Wall bounce UT [ ]
 Ball bounce UT [ ]
+
+Balls
+=====
+Keep track of how many balls are moving          [ ]
+Reorder lists of data to have moving balls first [ ]
