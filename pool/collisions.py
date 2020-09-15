@@ -3,7 +3,6 @@ Library of functions for collisions
 
 """
 import numpy as np
-from . import balls
 
 
 def non_relativistic_collision(v1, v2, x1, x2, m1, m2):

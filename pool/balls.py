@@ -27,8 +27,8 @@ class Balls:
         # Then we only need to check the first few balls for collisions
         # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
         self.num_balls = num_balls
-        self.positions = np.random.randint(0, 500, size=(num_balls, 2))
-        self.velocities = np.random.randint(-3, 3, size=(num_balls, 2))
+        self.positions = 500 * np.random.ranf(size=(num_balls, 2))
+        self.velocities = 6 * np.random.ranf(size=(num_balls, 2)) - 3
         self.radii = np.random.randint(0, 10, size=num_balls)
         self.masses = np.square(self.radii)
 
@@ -39,7 +39,7 @@ class Balls:
         """
         for i in range(self.num_balls):
             pygame.draw.circle(
-                screen, (255, 255, 255), self.positions[i], self.radii[i]
+                screen, (255, 255, 255), self.positions[i].astype(int), self.radii[i]
             )
 
     def colliding(self, i: int, j: int) -> bool:
