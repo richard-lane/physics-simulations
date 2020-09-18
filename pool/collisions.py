@@ -11,7 +11,7 @@ def non_relativistic_collision(v1, v2, x1, x2, m1, m2):
 
     Only works with 2d velocities
 
-    I dont think this conserves momentum...
+    I dont think this conserves momentum... could probably re normalise velocities after stepping
 
     """
     if len(v1) != 2 or len(v2) != 2 or len(x1) != 2 or len(x2) != 2:

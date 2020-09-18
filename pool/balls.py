@@ -28,7 +28,7 @@ class Balls:
         # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
         self.num_balls = num_balls
         self.positions = np.random.randint(0, 500, size=(self.num_balls, 2))
-        self.velocities = np.random.randint(0, 5, size=(self.num_balls, 2))
+        self.velocities = np.random.randint(-5, 5, size=(self.num_balls, 2))
         self.radii = np.random.randint(4, 10, size=self.num_balls)
         self.masses = np.square(self.radii)
 
@@ -91,19 +91,41 @@ class Balls:
         """
         # Bouncing off a wall just reverses the relevant velocity
 
+        # bounce off vertical wall
         if (
             self.positions[i][0] - self.radii[i] < x_limits[0]
             or self.positions[i][0] + self.radii[i] > x_limits[1]
         ):
-            # bounce off vertical wall
+            # Step back from the wall
+            if self.positions[i][0] - self.radii[i] < x_limits[0]:
+                # Left wall collision
+                self.positions[i][0] += 2 * (
+                    x_limits[0] + self.radii[i] - self.positions[i][0]
+                )
+            else:
+                # Right wall collision
+                self.positions[i][0] -= 2 * (
+                    self.positions[i][0] + self.radii[i] - x_limits[1]
+                )
             self.velocities[i][0] *= -1
 
         # Check both cases just in case we've hit the corner
+        # bounce off horizontal wall
         if (
             self.positions[i][1] - self.radii[i] < y_limits[0]
             or self.positions[i][1] + self.radii[i] > y_limits[1]
         ):
-            # bounce of horizontal wall
+            # Step back from the wall
+            if self.positions[i][1] - self.radii[i] < y_limits[0]:
+                # Top wall collision
+                self.positions[i][1] += 2 * (
+                    y_limits[0] + self.radii[i] - self.positions[i][1]
+                )
+            else:
+                # Bottom wall collision
+                self.positions[i][1] -= 2 * (
+                    self.positions[i][1] + self.radii[i] - y_limits[1]
+                )
             self.velocities[i][1] *= -1
 
     def move(self, x_limits, y_limits):
