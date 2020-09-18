@@ -1,9 +1,11 @@
 Collisions
 ==========
-Relativistic collisions                    [ ]
-Balls bounce off each other                [ ]
-Balls only check neighbours for collisions [ ]
-Physically accurate wall bouncing          [ ]
+Relativistic collisions                                                [ ]
+Balls bounce off each other                                            [x]
+Balls only check neighbours for collisions                             [ ]
+Physically accurate wall bouncing                                      [ ]
+Collision with wall corner                                             [ ]
+In principle we only need to check balls near the edges for collisions [ ]
 
 Graphics
 ========

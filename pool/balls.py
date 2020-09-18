@@ -82,6 +82,30 @@ class Balls:
             self.masses[j],
         )
 
+    def wall_bounce(self, i: int, x_limits, y_limits) -> None:
+        """
+        Check whether particle i has hit a wall, and if so process the collision
+
+        x_limits and y_limits should be two-element iterables
+
+        """
+        # Bouncing off a wall just reverses the relevant velocity
+
+        if (
+            self.positions[i][0] - self.radii[i] < x_limits[0]
+            or self.positions[i][0] + self.radii[i] > x_limits[1]
+        ):
+            # bounce off vertical wall
+            self.velocities[i][0] *= -1
+
+        # Check both cases just in case we've hit the corner
+        if (
+            self.positions[i][1] - self.radii[i] < y_limits[0]
+            or self.positions[i][1] + self.radii[i] > y_limits[1]
+        ):
+            # bounce of horizontal wall
+            self.velocities[i][1] *= -1
+
     def move(self, x_limits, y_limits):
         """
         Move a collection of balls, processing collisions with the edges
@@ -96,12 +120,7 @@ class Balls:
         for i in range(self.num_balls):
             # Might not be quicker to do it all in one loop because of the cache
             # TODO make physically accurate
-            if self.positions[i][0] < x_limits[0] or self.positions[i][0] > x_limits[1]:
-                self.positions[i] -= 2 * self.velocities[i]
-                self.velocities[i][0] *= -1
-            if self.positions[i][1] < y_limits[0] or self.positions[i][1] > y_limits[1]:
-                self.positions[i] -= 2 * self.velocities[i]
-                self.velocities[i][1] *= -1
+            self.wall_bounce(i, x_limits, y_limits)
 
         # Very naive collision logic
         # Will miss the collisions between fast balls (they will step past each other)
