@@ -149,6 +149,7 @@ class Balls:
         # Also is physically inaccurate
         # Also is inefficienct- checks every pair
         # TODO nicer
+        # Maybe would be better to do these loops within the functions themselves
         for i in range(self.num_balls):
             for j in range(self.num_balls):
                 if i != j:
