@@ -15,8 +15,8 @@ def test_collision_wrong_dimension():
     We can only deal with 2d things
 
     """
-    two = (1, 2)
-    three = (1, 2, 3)
+    two = np.array([1, 2])
+    three = np.array([1, 2, 3])
 
     # Check mainline case
     # Weird list comprehension thing so that our particles aren't on top of each other when they collide
@@ -38,8 +38,8 @@ def test_collision_stationary_target():
     Test a collision with a stationary target
 
     """
-    v1, v2 = (1, 0), (0, 0)
-    x1, x2 = (0, 0), (1, 0)
+    v1, v2 = np.array([1, 0]), np.array([0, 0])
+    x1, x2 = np.array([0, 0]), np.array([1, 0])
     m1, m2 = 1, 1
 
     expected_v1_after = np.array([0, 0])
@@ -56,8 +56,8 @@ def test_collision_moving_target():
     Test a collision with a moving target
 
     """
-    v1, v2 = (0, 2), (0, -4)
-    x1, x2 = (0, 0), (0, 1)
+    v1, v2 = np.array([0, 2]), np.array([0, -4])
+    x1, x2 = np.array([0, 0]), np.array([0, 1])
     m1, m2 = 10, 2
 
     expected_v1_after = np.array([0, 0])

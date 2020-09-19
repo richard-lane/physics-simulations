@@ -4,6 +4,10 @@ import pygame
 from . import collisions
 
 
+class ArgError(Exception):
+    pass
+
+
 class Balls:
     """
     Class representing a collection of pool balls
@@ -18,11 +22,24 @@ class Balls:
     radii = np.array([])
     masses = np.array([])
 
-    def __init__(self, num_balls):
+    def __init__(
+        self,
+        num_balls: int,
+        positions: np.ndarray,
+        velocities: np.ndarray,
+        radii: np.ndarray,
+    ):
         """
-        Create some balls for testing
+        Create a collection of num_balls balls
+
+        Positions and velocities should be an iterable of size (num_balls, 2)
+
+        Radii should be an iterable of size (num_balls)
 
         """
+        # Check that we have the right number of positions, velocities and radii
+        assert False
+
         # TODO should track how many balls are moving and place stationary balls at the end of the list
         # Then we only need to check the first few balls for collisions
         # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
@@ -30,7 +47,9 @@ class Balls:
         self.positions = np.random.randint(0, 500, size=(self.num_balls, 2))
         self.velocities = np.random.randint(-5, 5, size=(self.num_balls, 2))
         self.radii = np.random.randint(4, 10, size=self.num_balls)
-        self.masses = np.square(self.radii)
+
+        # All balls have mass proportional to their volume
+        self.masses = self.radii ** 3
 
     def draw(self, screen):
         """
