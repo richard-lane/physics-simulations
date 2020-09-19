@@ -1,11 +1,33 @@
 import numpy as np
 import pygame
+import enum
 
 from . import collisions
 
 
 class ArgError(Exception):
+    """
+    Invalid arguments passed to Balls constructor
+
+    """
+
     pass
+
+
+class WallBounce(enum.Enum):
+    """
+    Which wall a particle has bounced off
+
+    Either no bounce, an X bounce (off left or right wall), a Y bounce (off top or bottom), a CORNER bounce or none
+
+    In binary these are represented as (0, 1, 10, 11) which i guess enables bitwise comparisons
+
+    """
+
+    NONE = 0
+    X = 1
+    Y = 2
+    CORNER = 3
 
 
 class Balls:
@@ -83,6 +105,15 @@ class Balls:
                 np.ceil(self.positions[i]).astype(int),
                 self.radii[i],
             )
+
+    def has_hit_wall(self, i: int, x_limits, y_limits) -> bool:
+        """
+        Check whether particle i has collided with a wall
+
+        Wall limits defined by x_limits, y_limits = [x_min, x_max], [y_min, y_max]
+
+        """
+        assert False
 
     def colliding(self, i: int, j: int) -> bool:
         """

@@ -63,6 +63,7 @@ def test_ball_collision_touching():
 
     assert ball_system.colliding(0, 1)
 
+
 def test_ball_no_collision():
     """
     Check two balls that aren't colliding are detected properly
@@ -73,3 +74,76 @@ def test_ball_no_collision():
     )
 
     assert not ball_system.colliding(0, 1)
+
+
+def test_no_wall_bounce():
+    """
+    Check that a ball that isn't colliding with a wall is correctly identified
+
+    """
+    ball_system = balls.Balls(
+        1, np.array([[20, 20]]), np.array([[10, 5]]), np.array([9])
+    )
+
+    assert ball_system.has_hit_wall(0, [0, 100], [0, 100]) is balls.WallBounce.NONE
+
+
+def test_top_bottom_wall_intersection():
+    """
+    Check that a ball that intersecting with the top/bottom walls are detected
+
+    """
+    ball_system = balls.Balls(
+        2,
+        np.array([[50, 20], [50, 80]]),
+        np.array([[0, 1], [0, 1]]),
+        np.array([21, 21]),
+    )
+
+    assert ball_system.has_hit_wall(0, [0, 100], [0, 100]) is balls.WallBounce.Y
+    assert ball_system.has_hit_wall(1, [0, 100], [0, 100]) is balls.WallBounce.Y
+
+
+def test_left_right_wall_intersection():
+    """
+    Check that a ball that intersecting with the right/left walls are detected
+
+    """
+    ball_system = balls.Balls(
+        2,
+        np.array([[20, 50], [80, 50]]),
+        np.array([[0, 1], [0, 1]]),
+        np.array([21, 21]),
+    )
+
+    assert ball_system.has_hit_wall(0, [0, 100], [0, 100]) is balls.WallBounce.X
+    assert ball_system.has_hit_wall(1, [0, 100], [0, 100]) is balls.WallBounce.X
+
+
+def test_wall_bounce_touching():
+    """
+    Check a wall collision is detected when the ball is just touching it
+
+    """
+    ball_system = balls.Balls(
+        1, np.array([[20, 30]]), np.array([[10, 5]]), np.array([20])
+    )
+
+    assert ball_system.has_hit_wall(0, [0, 100], [0, 100]) is balls.WallBounce.X
+
+
+def test_corner_bounce():
+    """
+    Check a bounces with a corner where the ball intersects both walls, it intersects one and one touches, and it touches both
+
+    """
+    ball_system = balls.Balls(
+        3,
+        np.array([[19, 19], [19, 20], [20, 20]]),
+        np.array([[1, 1], [1, 1], [1, 1]]),
+        np.array([20, 20, 20]),
+    )
+
+    assert ball_system.has_hit_wall(0, [0, 100], [0, 100]) is balls.WallBounce.CORNER
+    assert ball_system.has_hit_wall(1, [0, 100], [0, 100]) is balls.WallBounce.CORNER
+    assert ball_system.has_hit_wall(2, [0, 100], [0, 100]) is balls.WallBounce.CORNER

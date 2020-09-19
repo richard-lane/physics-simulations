@@ -11,6 +11,7 @@ Make balls now slow down                                               [ ]
 
 Process break properly
  - Will need to actually think of an algorithm                         [ ]
+   - Need to consider propagating collisions between touching balls
 
 Graphics
 ========
