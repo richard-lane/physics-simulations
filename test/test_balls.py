@@ -38,3 +38,38 @@ def test_balls_arg_verification():
         balls.Balls(2, two_pairs, np.array([[1, 2, 3], [1, 2, 3]]), two_scalars)
     with pytest.raises(balls.ArgError):
         balls.Balls(2, two_pairs, two_pairs, np.array([1, 2, 3]))
+
+
+def test_ball_collision_overlap():
+    """
+    Check whether a simple collision where two balls overlap is detected
+
+    """
+    ball_system = balls.Balls(
+        2, np.array([[0, 0], [10, 0]]), np.array([[5, 0], [0, 0]]), np.array([6, 6])
+    )
+
+    assert ball_system.colliding(0, 1)
+
+
+def test_ball_collision_touching():
+    """
+    Check a simple collision where two balls just touch without overlapping
+
+    """
+    ball_system = balls.Balls(
+        2, np.array([[0, 0], [10, 0]]), np.array([[5, 0], [0, 0]]), np.array([5, 5])
+    )
+
+    assert ball_system.colliding(0, 1)
+
+def test_ball_no_collision():
+    """
+    Check two balls that aren't colliding are detected properly
+
+    """
+    ball_system = balls.Balls(
+        2, np.array([[0, 0], [10, 0]]), np.array([[5, 0], [0, 0]]), np.array([3, 3])
+    )
+
+    assert not ball_system.colliding(0, 1)

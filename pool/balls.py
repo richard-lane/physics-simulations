@@ -95,12 +95,13 @@ class Balls:
 
         """
         # Stationary balls don't collide
+        # TODO i think this is breaking things when balls get stuck in each other
         if not np.any(self.velocities[i]) and not np.any(self.velocities[j]):
             return False
 
         return (self.positions[i][0] - self.positions[j][0]) ** 2 + (
             self.positions[i][1] - self.positions[j][1]
-        ) ** 2 < (self.radii[i] + self.radii[j]) ** 2
+        ) ** 2 <= (self.radii[i] + self.radii[j]) ** 2
 
     def resolve_collision(self, i: int, j: int) -> None:
         """
