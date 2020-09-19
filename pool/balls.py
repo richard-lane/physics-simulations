@@ -106,14 +106,27 @@ class Balls:
                 self.radii[i],
             )
 
-    def has_hit_wall(self, i: int, x_limits, y_limits) -> bool:
+    def has_hit_wall(self, i: int, x_limits, y_limits) -> WallBounce:
         """
         Check whether particle i has collided with a wall
 
         Wall limits defined by x_limits, y_limits = [x_min, x_max], [y_min, y_max]
 
         """
-        assert False
+        # Check x positions of the particle to see if it has collided with the left or right wall
+        x_collision = (
+            self.positions[i][0] - self.radii[i] <= x_limits[0]
+            or self.positions[i][0] + self.radii[i] >= x_limits[1]
+        )
+
+        # Check y positions of the particle to see if it has collided with the top or bottom wall
+        y_collision = (
+            self.positions[i][1] - self.radii[i] <= y_limits[0]
+            or self.positions[i][1] + self.radii[i] >= y_limits[1]
+        )
+
+        # Convert these bools to the right enum
+        return WallBounce(2 * y_collision + x_collision)
 
     def colliding(self, i: int, j: int) -> bool:
         """

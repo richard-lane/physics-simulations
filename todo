@@ -1,13 +1,13 @@
 Collisions
 ==========
-Relativistic collisions                                                [ ]
-Balls bounce off each other                                            [x]
-Balls only check neighbours for collisions                             [ ]
-Physically accurate wall bouncing                                      [ ]
-Collision with wall corner                                             [ ]
-In principle we only need to check balls near the edges for collisions [ ]
-Wall bounce code should check + process seperately                     [ ]
-Make balls now slow down                                               [ ]
+Relativistic collisions                                                                 [ ]
+Balls bounce off each other                                                             [x]
+Balls only check neighbours for collisions                                              [ ]
+Physically accurate wall bouncing; should reverse the step until we're just touching    [ ]
+Collision with wall corner                                                              [x]
+In principle we only need to check balls near the edges for collisions                  [ ]
+Wall bounce code should check + process seperately                                      [ ]
+Make balls now slow down                                                                [ ]
 
 Process break properly
  - Will need to actually think of an algorithm                         [ ]
