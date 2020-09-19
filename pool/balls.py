@@ -64,9 +64,9 @@ class Balls:
         # Then we only need to check the first few balls for collisions
         # It might be inefficienct to move things around too much, but it might save a lot of time if only a few balls are moving
         self.num_balls = num_balls
-        self.positions = np.random.randint(0, 500, size=(self.num_balls, 2))
-        self.velocities = np.random.randint(-5, 5, size=(self.num_balls, 2))
-        self.radii = np.random.randint(4, 10, size=self.num_balls)
+        self.positions = positions
+        self.velocities = velocities
+        self.radii = radii
 
         # All balls have mass proportional to their volume
         self.masses = self.radii ** 3

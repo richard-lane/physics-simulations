@@ -1,6 +1,8 @@
 import pygame
+import numpy as np
 
 from . import balls
+
 
 def draw():
     pygame.init()
@@ -15,13 +17,20 @@ def draw():
 
     clock = pygame.time.Clock()
 
-    TestBalls = balls.Balls(20)
+    # Create n balls with random positions on the screen and random velocities
+    n = 20
+    TestBalls = balls.Balls(
+        n,
+        np.random.randint(*x_bounds, size=(n, 2)),
+        np.random.randint(-5, 5, size=(n, 2)),
+        np.random.randint(4, 10, size=(n,)),
+    )
 
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
-        
+
         # Move balls
         TestBalls.move(x_bounds, y_bounds)
 
@@ -34,5 +43,5 @@ def draw():
 
         # Update screen
         pygame.display.flip()
-    
+
     pygame.quit()
