@@ -18,11 +18,11 @@ def draw():
     clock = pygame.time.Clock()
 
     # Create n balls with random positions on the screen and random velocities
-    n = 20
+    n = 10
     TestBalls = balls.Balls(
         n,
-        np.random.randint(*x_bounds, size=(n, 2)),
-        np.random.randint(-5, 5, size=(n, 2)),
+        np.random.randint(*x_bounds, size=(n, 2)).astype(np.float64),
+        np.random.randint(-5, 5, size=(n, 2)).astype(np.float64),
         np.random.randint(4, 10, size=(n,)),
     )
 

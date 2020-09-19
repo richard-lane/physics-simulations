@@ -34,9 +34,9 @@ class Balls:
         Create a collection of num_balls balls
         This could probably be inferred but i like having it explicit
 
-        Positions and velocities should be an iterable of size (num_balls, 2)
+        Positions and velocities should be an iterable of size (num_balls, 2) and should probably be floats
 
-        Radii should be an iterable of size (num_balls)
+        Radii should be an iterable of ints, size (num_balls)
 
         """
         # Check that we have the right number of positions, velocities and radii
