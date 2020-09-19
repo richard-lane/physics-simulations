@@ -14,6 +14,7 @@ class Balls:
 
     Might be slightly faster than an array of individual Ball objects (but we'll see....)
 
+
     """
 
     num_balls = 0
@@ -31,6 +32,7 @@ class Balls:
     ):
         """
         Create a collection of num_balls balls
+        This could probably be inferred but i like having it explicit
 
         Positions and velocities should be an iterable of size (num_balls, 2)
 
@@ -38,7 +40,25 @@ class Balls:
 
         """
         # Check that we have the right number of positions, velocities and radii
-        assert False
+        if (
+            len(positions) != num_balls
+            or len(velocities) != num_balls
+            or len(radii) != num_balls
+        ):
+
+            raise ArgError(
+                f"{num_balls} balls; {len(positions)} positions; {len(velocities)} velocities and {len(radii)} radii"
+            )
+
+        # Check we have 2d positions and velocities, and scalar masses
+        if (
+            positions.shape != (num_balls, 2)
+            or velocities.shape != (num_balls, 2)
+            or radii.shape != (num_balls,)
+        ):
+            raise ArgError(
+                f"Invalid dimensions: {positions.shape} positions; {velocities.shape} velocities; {radii.shape} radii"
+            )
 
         # TODO should track how many balls are moving and place stationary balls at the end of the list
         # Then we only need to check the first few balls for collisions
