@@ -7,7 +7,9 @@ Physically accurate wall bouncing; should reverse the step until we're just touc
 Collision with wall corner                                                              [x]
 In principle we only need to check balls near the edges for collisions                  [ ]
 Wall bounce code should check + process seperately                                      [ ]
-Make balls now slow down                                                                [ ]
+Make balls not slow down                                                                [ ]
+Deal with balls passing through edges                                                   [ ]
+Deal with balls passing through each other                                              [ ]
 
 Process break properly
  - Will need to actually think of an algorithm                         [ ]

@@ -14,7 +14,7 @@ class ArgError(Exception):
     pass
 
 
-class WallBounce(enum.Enum):
+class WallBounce(enum.IntEnum):
     """
     Which wall a particle has bounced off
 
@@ -173,43 +173,13 @@ class Balls:
         x_limits and y_limits should be two-element iterables
 
         """
-        # Bouncing off a wall just reverses the relevant velocity
+        wall_bounce_code = self.has_hit_wall(i, x_limits, y_limits)
 
-        # bounce off vertical wall
-        if (
-            self.positions[i][0] - self.radii[i] < x_limits[0]
-            or self.positions[i][0] + self.radii[i] > x_limits[1]
-        ):
-            # Step back from the wall
-            if self.positions[i][0] - self.radii[i] < x_limits[0]:
-                # Left wall collision
-                self.positions[i][0] += 2 * (
-                    x_limits[0] + self.radii[i] - self.positions[i][0]
-                )
-            else:
-                # Right wall collision
-                self.positions[i][0] -= 2 * (
-                    self.positions[i][0] + self.radii[i] - x_limits[1]
-                )
+        # Bouncing off a wall just reverses the relevant velocity
+        if wall_bounce_code & 1:
             self.velocities[i][0] *= -1
 
-        # Check both cases just in case we've hit the corner
-        # bounce off horizontal wall
-        if (
-            self.positions[i][1] - self.radii[i] < y_limits[0]
-            or self.positions[i][1] + self.radii[i] > y_limits[1]
-        ):
-            # Step back from the wall
-            if self.positions[i][1] - self.radii[i] < y_limits[0]:
-                # Top wall collision
-                self.positions[i][1] += 2 * (
-                    y_limits[0] + self.radii[i] - self.positions[i][1]
-                )
-            else:
-                # Bottom wall collision
-                self.positions[i][1] -= 2 * (
-                    self.positions[i][1] + self.radii[i] - y_limits[1]
-                )
+        if wall_bounce_code & 2:
             self.velocities[i][1] *= -1
 
     def move(self, x_limits, y_limits):
