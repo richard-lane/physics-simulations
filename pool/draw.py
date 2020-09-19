@@ -8,8 +8,8 @@ from . import table
 def draw():
     pygame.init()
 
-    x_bounds = [0, 500]
-    y_bounds = [0, 500]
+    x_bounds = [0, 400]
+    y_bounds = [0, 650]
     size = [x_bounds[1], y_bounds[1]]
     screen = pygame.display.set_mode(size)
 
