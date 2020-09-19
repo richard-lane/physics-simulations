@@ -9,15 +9,20 @@ In principle we only need to check balls near the edges for collisions [ ]
 Wall bounce code should check + process seperately                     [ ]
 Make balls now slow down                                               [ ]
 
+Process break properly
+ - Will need to actually think of an algorithm                         [ ]
+
 Graphics
 ========
-Draw pool table     [ ]
-Draw balls on table [ ]
+Draw pool table                                               [x]
+Draw balls on table                                           [x]
+Don't redraw the table every frame, use an image or something [ ]
+Draw coloured balls, start in the right place
 
 Testing
 =======
 Wall bounce UT [ ]
-Ball bounce UT [ ]
+Ball bounce UT [x]
 
 Balls
 =====

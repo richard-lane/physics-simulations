@@ -2,12 +2,13 @@ import pygame
 import numpy as np
 
 from . import balls
+from . import table
 
 
 def draw():
     pygame.init()
 
-    x_bounds = [0, 700]
+    x_bounds = [0, 500]
     y_bounds = [0, 500]
     size = [x_bounds[1], y_bounds[1]]
     screen = pygame.display.set_mode(size)
@@ -26,16 +27,20 @@ def draw():
         np.random.randint(4, 10, size=(n,)),
     )
 
+    # Table border width
+    border_width = 20
+    internal_edges = [[border_width, size[0] - border_width], [border_width, size[1] - border_width]]
+
     while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
 
         # Move balls
-        TestBalls.move(x_bounds, y_bounds)
+        TestBalls.move(internal_edges[0], internal_edges[1])
 
         # Draw background and balls
-        screen.fill((0, 0, 0))
+        table.draw_table(screen, *size, border_width)
         TestBalls.draw(screen)
 
         # Limit FPS

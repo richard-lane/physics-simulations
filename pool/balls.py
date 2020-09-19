@@ -71,7 +71,7 @@ class Balls:
         # All balls have mass proportional to their volume
         self.masses = self.radii ** 3
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface):
         """
         Draw these balls on a Pygame screen
 
