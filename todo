@@ -8,8 +8,8 @@ Collision with wall corner                                                      
 In principle we only need to check balls near the edges for collisions                  [ ]
 Wall bounce code should check + process seperately                                      [ ]
 Make balls not slow down                                                                [ ]
-Deal with balls passing through edges                                                   [ ]
-Deal with balls passing through each other                                              [ ]
+Deal with balls passing through edges + UT                                              [ ]
+Deal with balls passing through each other + UT                                         [ ]
 
 Process break properly
  - Will need to actually think of an algorithm                         [ ]
