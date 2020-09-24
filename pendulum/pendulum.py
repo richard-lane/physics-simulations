@@ -5,6 +5,7 @@ Pendulum animation
 import numpy as np
 from scipy.constants import g as EARTH_GRAVITY
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 from scipy.integrate import odeint
 
 
@@ -52,7 +53,7 @@ class Pendulum:
         """
         # Could in principle sanity check the args but speed is probably paramount
 
-        return np.array([-(self._angular_freq** 2) * np.sin(x[1]), x[0]])
+        return np.array([-(self._angular_freq ** 2) * np.sin(x[1]), x[0]])
 
     def solve(self, times: np.ndarray):
         """
@@ -65,14 +66,46 @@ class Pendulum:
         return odeint(self._eqns, self._initial_conditions, times).T
 
 
+def animate(times: np.ndarray, angles: np.ndarray) -> None:
+    """
+    Plot a pendulum with the given angles at the given times
+
+    Length is normalised to 1
+
+    """
+    x = np.sin(angles)
+    y = -np.cos(angles)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2, 2), ylim=(-2, 2))
+    ax.grid()
+
+    line, = ax.plot([], [], "o-", lw=2)
+
+    def init():
+        line.set_data([], [])
+        return (line,)
+
+    def animate(i):
+        thisx = [0, x[i]]
+        thisy = [0, y[i]]
+
+        line.set_data(thisx, thisy)
+        return (line,)
+
+    ani = animation.FuncAnimation(
+        fig, animate, np.arange(1, len(y)), interval=25, blit=True, init_func=init
+    )
+    plt.show()
+
+
 def main():
     MyPendulum = Pendulum(1.0, 1.0, 1.0, 0.0)
 
-    times = np.arange(0.0, 10, 0.1)
+    times = np.arange(0.0, 100, 0.01)
     angles = MyPendulum.solve(times)[1]
 
-    plt.plot(times, angles)
-    plt.show()
+    animate(times, angles)
 
 
 if __name__ == "__main__":
