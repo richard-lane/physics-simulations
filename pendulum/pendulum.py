@@ -4,6 +4,7 @@ Pendulum animation
 """
 import numpy as np
 from scipy.constants import g as EARTH_GRAVITY
+import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
 
@@ -67,9 +68,11 @@ class Pendulum:
 def main():
     MyPendulum = Pendulum(1.0, 1.0, 1.0, 0.0)
 
-    angles = MyPendulum.solve(np.arange(0, 10, 0.1))[1]
+    times = np.arange(0.0, 10, 0.1)
+    angles = MyPendulum.solve(times)[1]
 
-    print(angles)
+    plt.plot(times, angles)
+    plt.show()
 
 
 if __name__ == "__main__":
