@@ -4,7 +4,7 @@ Pendulum animation
 """
 import numpy as np
 from scipy.constants import g as EARTH_GRAVITY
-from scipy.integrate import solve_ivp
+from scipy.integrate import odeint
 
 
 class Pendulum:
@@ -30,6 +30,9 @@ class Pendulum:
     ):
         """
         Initialise a pendulum with the given physical parameters and initial condition
+
+        Starting angle and velocity in radians
+
         """
 
         # Initialise physical params
@@ -39,7 +42,7 @@ class Pendulum:
         # Initialise initial conditions
         self._initial_conditions = np.array([starting_angular_vely, starting_angle])
 
-    def _eqns(x: np.ndarray):
+    def _eqns(self, x: np.ndarray, t):
         """
         Equation to be solved, in the form dx/dt  = something
 
@@ -48,20 +51,25 @@ class Pendulum:
         """
         # Could in principle sanity check the args but speed is probably paramount
 
-        return np.array([-(self._starting_angular_vely ** 2) * np.sin(x[1]), x[0]])
+        return np.array([-(self._angular_freq** 2) * np.sin(x[1]), x[0]])
 
     def solve(self, times: np.ndarray):
         """
         Solve the eqn of motion of the pendulum
 
-        Returns the same thing as scipy.integrate.solve_ivp
+        Returns [[velocities], [angles]]
 
         """
-        return solve_ivp(self._eqns, times, np.array)
+        # Should probably use solve_ivp instead
+        return odeint(self._eqns, self._initial_conditions, times).T
 
 
 def main():
-    pass
+    MyPendulum = Pendulum(1.0, 1.0, 1.0, 0.0)
+
+    angles = MyPendulum.solve(np.arange(0, 10, 0.1))[1]
+
+    print(angles)
 
 
 if __name__ == "__main__":
