@@ -1,0 +1,9 @@
+Ideas
+=====
+Ideas/rough todo, in a vague order of priority
+Not fleshed out
+
+ - Make the collisions sometimes relativistic :)
+ - Oscillating walls
+ - Model motion using Hamiltonians
+ - Quantum billiards
