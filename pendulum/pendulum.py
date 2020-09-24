@@ -53,7 +53,7 @@ class Pendulum:
         """
         # Could in principle sanity check the args but speed is probably paramount
 
-        return np.array([-(self._angular_freq ** 2) * np.sin(x[1]), x[0]])
+        return np.array([-(self._angular_freq ** 2) * np.sin(x[1]) - x[0], x[0]])
 
     def solve(self, times: np.ndarray):
         """
@@ -102,7 +102,7 @@ def animate(times: np.ndarray, angles: np.ndarray) -> None:
 def main():
     MyPendulum = Pendulum(1.0, 1.0, 1.0, 0.0)
 
-    times = np.arange(0.0, 100, 0.01)
+    times = np.arange(0.0, 100, 0.05)
     angles = MyPendulum.solve(times)[1]
 
     animate(times, angles)
