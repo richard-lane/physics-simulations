@@ -13,8 +13,20 @@ Contents
 ----
 (will add hyperlinks to these when they're done)
  - [Simple oscillations](./Simple.ipynb)
- - Beats, driven and damped oscillations
+ - [Two Masses and Beats](./Two.ipynb)
+ - [Driven and Damped Oscillations](./Driven.ipynb)
  - Three masses
  - More masses
  - 2 dimensions
  - The continuous limit
+ 
+ Requirements
+ ----
+Probably just use a sensible python distribution - anaconda?
+
+ * python 3- maybe 3.9 or something?
+ * matplotlib
+ * numpy
+ * pyaudio
+ * more
+ 
