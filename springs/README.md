@@ -12,7 +12,7 @@ The goal should be to program well with an open mind - but not so far that your 
 Contents
 ----
 (will add hyperlinks to these when they're done)
- - Simple oscillations
+ - [Simple oscillations](./Simple.ipynb)
  - Beats, driven and damped oscillations
  - Three masses
  - More masses
